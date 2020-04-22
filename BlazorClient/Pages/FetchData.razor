@@ -1,0 +1,70 @@
+@page "/fetchdata"
+@inject HttpClient Http
+@inject IAccessTokenProvider TokenProvider
+@inject BlazorClient.Services.IWeatherForecastService Service
+@attribute [Authorize]
+
+<h1>Weather forecast</h1>
+
+<p>This component demonstrates fetching data from the server and templated components</p>
+
+<ApiFeedback  Error="error" UnAuthorized="unAuthorized" Items="forecasts">
+    <ErrorMessage>
+        <div class="alert alert-danger">
+            <strong>Danger!</strong> There was an error !
+        </div>
+    </ErrorMessage>
+    <UnAuthorizedMessage>
+        <div class="alert alert-danger">
+            <strong>Danger!</strong> You are not authorized !
+        </div>
+    </UnAuthorizedMessage>
+    <Loading>
+        <p><em>Loading...</em></p>
+    </Loading>
+    <TableHeader>
+        <tr>
+            <th>Date</th>
+            <th>Temp. (C)</th>
+            <th>Temp. (F)</th>
+            <th>Summary</th>
+        </tr>
+    </TableHeader>
+    <Item Context="item">
+        <tr>
+            <td>@item.Date.ToShortDateString()</td>
+            <td>@item.TemperatureC</td>
+            <td>@item.TemperatureF</td>
+            <td>@item.Summary</td>
+        </tr>
+    </Item>
+</ApiFeedback>
+
+
+
+@code {
+    private WeatherForecast[] forecasts;
+    private bool unAuthorized;
+    private bool error;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var result = await Service.GetForcasts();
+
+        if(result.StatusCode == System.Net.HttpStatusCode.OK.ToString())
+        {
+            forecasts = result.Content;
+        }
+
+        if(result.StatusCode == System.Net.HttpStatusCode.Unauthorized.ToString())
+        {
+            unAuthorized = true;
+        }
+
+        if(result.StatusCode != System.Net.HttpStatusCode.OK.ToString() &&
+            result.StatusCode != System.Net.HttpStatusCode.Unauthorized.ToString())
+        {
+            error = true;
+        }
+    }
+}

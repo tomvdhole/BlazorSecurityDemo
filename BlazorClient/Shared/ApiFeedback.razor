@@ -1,0 +1,46 @@
+﻿@typeparam TItem
+
+@if (Error)
+{
+    @ErrorMessage
+}
+else
+{
+    if (UnAuthorized)
+    {
+        @UnAuthorizedMessage
+    }
+    else
+    {
+        @if (Items == null)
+        {
+            @Loading
+        }
+        else
+        {
+            <table class="table">
+                <thead>
+                    @TableHeader
+                </thead>
+                <tbody>
+                    @foreach (var item in Items)
+                    {
+                        @Item(item)
+                    }
+                </tbody>
+            </table>
+        }
+    }
+}
+
+@code {
+    [Parameter] public bool Error { get; set; }
+    [Parameter] public RenderFragment ErrorMessage { get; set; }
+    [Parameter] public bool UnAuthorized { get; set; }
+    [Parameter] public RenderFragment UnAuthorizedMessage { get; set; }
+    [Parameter] public RenderFragment Loading { get; set; }
+    [Parameter] public RenderFragment TableHeader { get; set; }
+    [Parameter] public RenderFragment<TItem> Item { get; set; }
+    [Parameter] public IEnumerable<TItem> Items { get; set; }
+}
+
