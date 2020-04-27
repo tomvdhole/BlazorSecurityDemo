@@ -1,5 +1,6 @@
 ﻿using BlazorClient.Shared;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
+using Microsoft.JSInterop;
 using SharedModels;
 using System;
 using System.Collections.Generic;
@@ -31,36 +32,59 @@ namespace BlazorClient.Services
                 HttpClient.DefaultRequestHeaders.Clear();
                 HttpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {token.Value}");
 
-                var response = await HttpClient.GetAsync("https://localhost:5002/WeatherForecast");
-                if (response.IsSuccessStatusCode)
+                try //try catch needed for possible  error in javascript layer
                 {
-                    return new ApiResult<WeatherForecast[]>
-                    {
-                        Content = await response.Content.ReadFromJsonAsync<WeatherForecast[]>(),
-                        StatusCode = response.StatusCode.ToString(),
-                        Error = string.Empty
-                    };
-                }
-                else
-                {
-                    if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                    var response = await HttpClient.GetAsync("https://localhost:5002/WeatherForecast");
+                    if (response.IsSuccessStatusCode)
                     {
                         return new ApiResult<WeatherForecast[]>
                         {
-                            Content = null,
-                            StatusCode = response.StatusCode.ToString(),
-                            Error = "You are not authorized to get this info!"
+                            Content = await response.Content.ReadFromJsonAsync<WeatherForecast[]>(),
+                            StatusCode = (int)response.StatusCode,
+                            Error = string.Empty
                         };
+                    }
+                    else
+                    {
+                        if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                        {
+                            return new ApiResult<WeatherForecast[]>
+                            {
+                                Content = null,
+                                StatusCode = (int)response.StatusCode,
+                                Error = "You are not authorized to get this info!"
+                            };
+                        }
+                        else
+                        {
+                            return new ApiResult<WeatherForecast[]>
+                            {
+                                Content = null,
+                                StatusCode = 500,
+                                Error = "Server error!"
+                            };
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                    return new ApiResult<WeatherForecast[]>
+                    {
+                        Content = null,
+                        StatusCode = 500,
+                        Error = "Server error!"
                     };
                 }
             }
-
-            return new ApiResult<WeatherForecast[]>
+            else
             {
-                Content = null,
-                StatusCode = 500.ToString(),
-                Error = "Server error!"
-            };
+                return new ApiResult<WeatherForecast[]>
+                {
+                    Content = null,
+                    StatusCode = 500,
+                    Error = "Server error!"
+                };
+            }
         }
     }
 }

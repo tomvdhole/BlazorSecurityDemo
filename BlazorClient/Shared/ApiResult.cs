@@ -7,7 +7,7 @@ namespace BlazorClient.Shared
 {
     public class ApiResult<T>
     {
-        public string StatusCode { get; set; }
+        public int StatusCode { get; set; }
         public string Error { get; set; }
         public T Content { get; set; }
     }

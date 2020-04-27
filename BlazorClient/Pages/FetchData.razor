@@ -51,18 +51,18 @@
     {
         var result = await Service.GetForcasts();
 
-        if(result.StatusCode == System.Net.HttpStatusCode.OK.ToString())
+        if(result.StatusCode == (int) System.Net.HttpStatusCode.OK)
         {
             forecasts = result.Content;
         }
 
-        if(result.StatusCode == System.Net.HttpStatusCode.Unauthorized.ToString())
+        if(result.StatusCode == (int) System.Net.HttpStatusCode.Unauthorized)
         {
             unAuthorized = true;
         }
 
-        if(result.StatusCode != System.Net.HttpStatusCode.OK.ToString() &&
-            result.StatusCode != System.Net.HttpStatusCode.Unauthorized.ToString())
+        if(result.StatusCode != (int) System.Net.HttpStatusCode.OK &&
+            result.StatusCode != (int) System.Net.HttpStatusCode.Unauthorized)
         {
             error = true;
         }
