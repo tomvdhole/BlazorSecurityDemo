@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BlazorClient.Shared
+namespace BlazorClient.Shared.Results
 {
     public class ApiResult<T>
     {
