@@ -22,22 +22,29 @@
     <Loading>
         <p><em>Loading...</em></p>
     </Loading>
-    <TableHeader>
-        <tr>
-            <th>Date</th>
-            <th>Temp. (C)</th>
-            <th>Temp. (F)</th>
-            <th>Summary</th>
-        </tr>
-    </TableHeader>
-    <Item Context="item">
-        <tr>
-            <td>@item.Date.ToShortDateString()</td>
+    <ListTemplate Context="ListOfItems">
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Temp. (C)</th>
+                    <th>Temp. (F)</th>
+                    <th>Summary</th>
+                </tr>
+            </thead>
+            <tbody>
+                @ListOfItems
+            </tbody>
+        </table>
+    </ListTemplate>
+    <ItemTemplate Context="item">
+        <tr @key="item">
+            <td>@item.Date</td>
             <td>@item.TemperatureC</td>
             <td>@item.TemperatureF</td>
             <td>@item.Summary</td>
         </tr>
-    </Item>
+    </ItemTemplate>
 </ApiFeedback>
 
 
