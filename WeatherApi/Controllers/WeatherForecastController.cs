@@ -9,7 +9,7 @@ using SharedModels;
 
 namespace WeatherApi.Controllers
 {
-    [Authorize]
+    [Authorize(Policy = "AcceptedDomains")]
     [ApiController]
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
