@@ -15,12 +15,18 @@ namespace WeatherApi.Policies.AcceptedDomains.Handlers
         {
             if(context.User.HasClaim(c => c.Type == ClaimTypes.Email))
             {
-                var email = context.User.Claims.Where(c => c.Type == ClaimTypes.Email).Select(c => c.Value.ToString().ToLower()).FirstOrDefault();
-            
-                if (email != null)
-                    foreach (var domain in domains)
-                        if (email.EndsWith(domain))
-                            context.Succeed(requirement);
+                //var email = context.User.Claims.Where(c => c.Type == ClaimTypes.Email).Select(c => c.Value.ToString().ToLower()).FirstOrDefault();
+
+                //if (email != null)
+                //    foreach (var domain in domains)
+                //        if (email.EndsWith(domain))
+                //            context.Succeed(requirement);
+
+                var email = context.User.Claims.Where(c => c.Type == ClaimTypes.Email).Select(c => c.Value.ToString().ToLower()).First();
+
+                foreach (var domain in domains)
+                    if (email.EndsWith(domain))
+                        context.Succeed(requirement);
             }
             return Task.CompletedTask;
         }
