@@ -1,19 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using WeatherApi.Policies.AcceptedDomains.Handlers;
 using WeatherApi.Policies.AcceptedDomains.Requirements;
+
+using static WeatherApi.Policies.Constants.Policies;
 
 namespace WeatherApi
 {
@@ -41,7 +36,11 @@ namespace WeatherApi
             services.AddSingleton<IAuthorizationHandler, AcceptedDomainsHandler>();
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("AcceptedDomains", policy => policy.Requirements.Add(new AcceptedDomainsRequirement()));
+                options.AddPolicy(AcceptedDomains, policy =>
+                {
+                    policy.RequireAuthenticatedUser();
+                    policy.Requirements.Add(new AcceptedDomainsRequirement());
+                });
             });
         }
 

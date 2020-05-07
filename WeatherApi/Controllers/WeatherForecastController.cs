@@ -6,10 +6,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SharedModels;
+using WeatherApi.Policies.AuthorizeAttributes;
 
 namespace WeatherApi.Controllers
 {
-    [Authorize(Policy = "AcceptedDomains")]
+    //[Authorize(Policy = "AcceptedDomains")]
+    [AcceptedDomainsPolicy]
     [ApiController]
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase

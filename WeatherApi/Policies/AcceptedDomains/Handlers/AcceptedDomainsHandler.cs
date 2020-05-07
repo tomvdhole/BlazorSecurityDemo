@@ -10,16 +10,16 @@ namespace WeatherApi.Policies.AcceptedDomains.Handlers
 {
     public class AcceptedDomainsHandler : AuthorizationHandler<AcceptedDomainsRequirement>
     {
-        private readonly string[] domains = { "vdh.be", "tom.be" };
+        private readonly string[] domains = { "@vdh.be", "@tom.be" };
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, AcceptedDomainsRequirement requirement)
         {
             if(context.User.HasClaim(c => c.Type == ClaimTypes.Email))
             {
-                var email = context.User.Claims.Where(c => c.Type == ClaimTypes.Email).Select(c => c.Value.ToString()).FirstOrDefault();
+                var email = context.User.Claims.Where(c => c.Type == ClaimTypes.Email).Select(c => c.Value.ToString().ToLower()).FirstOrDefault();
             
                 if (email != null)
                     foreach (var domain in domains)
-                        if (email.Contains(domain))
+                        if (email.EndsWith(domain))
                             context.Succeed(requirement);
             }
             return Task.CompletedTask;
