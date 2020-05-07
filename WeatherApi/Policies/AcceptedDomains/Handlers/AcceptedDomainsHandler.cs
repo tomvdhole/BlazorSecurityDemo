@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using WeatherApi.Shared.Policies.AcceptedDomains.Requirements;
+using WeatherApi.Policies.AcceptedDomains.Requirements;
 
-namespace WeatherApi.Shared.Policies.AcceptedDomains.Handlers
+namespace WeatherApi.Policies.AcceptedDomains.Handlers
 {
     public class AcceptedDomainsHandler : AuthorizationHandler<AcceptedDomainsRequirement>
     {

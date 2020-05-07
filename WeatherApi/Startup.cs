@@ -12,8 +12,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using WeatherApi.Shared.Policies.AcceptedDomains.Handlers;
-using WeatherApi.Shared.Policies.AcceptedDomains.Requirements;
+using WeatherApi.Policies.AcceptedDomains.Handlers;
+using WeatherApi.Policies.AcceptedDomains.Requirements;
 
 namespace WeatherApi
 {

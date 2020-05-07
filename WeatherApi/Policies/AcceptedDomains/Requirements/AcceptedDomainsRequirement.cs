@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WeatherApi.Shared.Policies.AcceptedDomains.Requirements
+namespace WeatherApi.Policies.AcceptedDomains.Requirements
 {
     public class AcceptedDomainsRequirement: IAuthorizationRequirement
     {}

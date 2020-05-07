@@ -61,13 +61,15 @@
             forecasts = result.Content;
         }
 
-        if(result.StatusCode == (int) System.Net.HttpStatusCode.Unauthorized)
+        if(result.StatusCode == (int) System.Net.HttpStatusCode.Unauthorized ||
+           result.StatusCode == (int) System.Net.HttpStatusCode.Forbidden)
         {
             unAuthorized = true;
         }
 
         if(result.StatusCode != (int) System.Net.HttpStatusCode.OK &&
-            result.StatusCode != (int) System.Net.HttpStatusCode.Unauthorized)
+            result.StatusCode != (int) System.Net.HttpStatusCode.Unauthorized &&
+            result.StatusCode != (int) System.Net.HttpStatusCode.Forbidden)
         {
             error = true;
         }

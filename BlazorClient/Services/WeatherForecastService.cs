@@ -47,7 +47,8 @@ namespace BlazorClient.Services
                     }
                     else
                     {
-                        if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                        if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized ||
+                            response.StatusCode == System.Net.HttpStatusCode.Forbidden)
                         {
                             return new ApiResult<WeatherForecast[]>
                             {
